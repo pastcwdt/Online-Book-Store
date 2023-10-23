@@ -1,29 +1,38 @@
 package past.cwdt.bookstore.service.impl;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import past.cwdt.bookstore.model.Book;
+import past.cwdt.bookstore.dto.BookDto;
+import past.cwdt.bookstore.dto.CreateBookRequestDto;
+import past.cwdt.bookstore.exceptions.EntityNotFoundException;
+import past.cwdt.bookstore.mapper.BookMapper;
 import past.cwdt.bookstore.repository.BookRepository;
 import past.cwdt.bookstore.service.BookService;
 
+@RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
-    @Autowired
-    public BookServiceImpl(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    @Override
+    public BookDto save(CreateBookRequestDto requestDto) {
+        return bookMapper.toDto(bookRepository.save(bookMapper.toBook(requestDto)));
     }
 
     @Override
-    public Book save(Book book) {
-        return bookRepository.save(book);
-
+    public BookDto getBookById(Long id) {
+        return bookRepository.findById(id)
+                .map(bookMapper::toDto)
+                .orElseThrow(()
+                        -> new EntityNotFoundException("Can't find book by Id " + id));
     }
 
     @Override
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public List<BookDto> findAll() {
+        return bookRepository.findAll().stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
 }

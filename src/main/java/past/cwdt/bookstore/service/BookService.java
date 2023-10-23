@@ -1,10 +1,13 @@
 package past.cwdt.bookstore.service;
 
 import java.util.List;
-import past.cwdt.bookstore.model.Book;
+import past.cwdt.bookstore.dto.BookDto;
+import past.cwdt.bookstore.dto.CreateBookRequestDto;
 
 public interface BookService {
-    Book save(Book book);
+    BookDto save(CreateBookRequestDto requestDto);
 
-    List<Book> findAll();
+    BookDto getBookById(Long id);
+
+    List<BookDto> findAll();
 }
