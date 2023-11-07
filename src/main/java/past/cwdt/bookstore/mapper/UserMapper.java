@@ -3,9 +3,8 @@ package past.cwdt.bookstore.mapper;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
-import past.cwdt.bookstore.dto.book.BookDto;
-import past.cwdt.bookstore.dto.book.CreateBookRequestDto;
-import past.cwdt.bookstore.model.Book;
+import past.cwdt.bookstore.dto.user.UserResponseDto;
+import past.cwdt.bookstore.model.User;
 
 @Mapper(
         componentModel = "spring",
@@ -13,8 +12,6 @@ import past.cwdt.bookstore.model.Book;
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         implementationPackage = "<PACKAGE_NAME>.impl"
 )
-public interface BookMapper {
-    BookDto toDto(Book book);
-
-    Book toBook(CreateBookRequestDto requestDto);
+public interface UserMapper {
+    UserResponseDto toUserResponseDto(User user);
 }

@@ -3,7 +3,7 @@ package past.cwdt.bookstore.repository.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import past.cwdt.bookstore.dto.BookDtoSearchByParameters;
+import past.cwdt.bookstore.dto.book.BookDtoSearchByParameters;
 import past.cwdt.bookstore.model.Book;
 import past.cwdt.bookstore.repository.SpecificationBuilder;
 import past.cwdt.bookstore.repository.SpecificationProviderManager;
