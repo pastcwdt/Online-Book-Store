@@ -23,21 +23,25 @@ import past.cwdt.bookstore.service.BookService;
 public class BookController {
     private final BookService bookService;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<BookDto> findAll() {
         return bookService.findAll();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public BookDto createBook(@RequestBody CreateBookRequestDto bookDto) {
         return bookService.save(bookDto);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public BookDto updateBook(@PathVariable Long id, @RequestBody CreateBookRequestDto bookDto) {
         return bookService.update(id, bookDto);
@@ -49,6 +53,7 @@ public class BookController {
         bookService.deleteById(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/search")
     public List<BookDto> searchBooks(BookDtoSearchByParameters searchParameters) {
         return bookService.search(searchParameters);
