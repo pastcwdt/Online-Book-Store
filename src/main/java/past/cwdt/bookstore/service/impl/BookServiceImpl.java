@@ -52,21 +52,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(Long id) {
-        checkIfBookExistsById(id);
         bookRepository.deleteById(id);
     }
 
     @Override
-    public List<BookDto> search(BookDtoSearchByParameters searchParameters) {
-        return bookRepository.findAll(bookSpecificationBuilder.build(searchParameters))
+    public List<BookDto> search(BookDtoSearchByParameters searchParameters, Pageable pageable) {
+        return bookRepository.findAll(bookSpecificationBuilder.build(searchParameters), pageable)
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();
-    }
-
-    private void checkIfBookExistsById(Long id) {
-        if (!bookRepository.existsById(id)) {
-            throw new EntityNotFoundException("Can't find book with id " + id);
-        }
     }
 }

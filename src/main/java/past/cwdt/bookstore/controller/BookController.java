@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -68,7 +69,8 @@ public class BookController {
     @GetMapping("/search")
     @Operation(summary = "Search book",
             description = "Get a list of books within specified parameters")
-    public List<BookDto> searchBooks(BookDtoSearchByParameters searchParameters) {
-        return bookService.search(searchParameters);
+    public List<BookDto> searchBooks(BookDtoSearchByParameters searchParameters,
+                                     @ParameterObject @PageableDefault Pageable pageable) {
+        return bookService.search(searchParameters, pageable);
     }
 }
