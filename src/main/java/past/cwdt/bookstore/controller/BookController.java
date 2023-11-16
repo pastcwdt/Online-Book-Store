@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import past.cwdt.bookstore.dto.BookDto;
-import past.cwdt.bookstore.dto.BookDtoSearchByParameters;
-import past.cwdt.bookstore.dto.CreateBookRequestDto;
+import past.cwdt.bookstore.dto.book.BookDto;
+import past.cwdt.bookstore.dto.book.BookDtoSearchByParameters;
+import past.cwdt.bookstore.dto.book.CreateBookRequestDto;
 import past.cwdt.bookstore.service.BookService;
 
 @Tag(name = "Book management", description = "Endpoints for managing books")
@@ -32,20 +33,21 @@ import past.cwdt.bookstore.service.BookService;
 public class BookController {
     private final BookService bookService;
 
-    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     @Operation(summary = "Get all books", description = "Get a list of all available books")
     public List<BookDto> findAll(@PageableDefault(size = 5) Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     @Operation(summary = "Get a book", description = "Get a book by id, if this id exists")
     public BookDto getBookById(@PathVariable @Positive Long id) {
         return bookService.getBookById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     @Operation(summary = "Create a new book", description = "Create a new book")
@@ -53,7 +55,7 @@ public class BookController {
         return bookService.save(bookDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Update a book", description = "Update a book by id, if this id exists")
     public BookDto updateBook(@PathVariable @Positive Long id,
@@ -61,6 +63,7 @@ public class BookController {
         return bookService.update(id, bookDto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a book", description = "Delete a book by id, if this id exists")
@@ -68,7 +71,7 @@ public class BookController {
         bookService.deleteById(id);
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/search")
     @Operation(summary = "Search book",
             description = "Get a list of books within specified parameters")

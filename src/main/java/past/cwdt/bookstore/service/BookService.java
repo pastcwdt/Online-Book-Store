@@ -2,9 +2,9 @@ package past.cwdt.bookstore.service;
 
 import java.util.List;
 import org.springframework.data.domain.Pageable;
-import past.cwdt.bookstore.dto.BookDto;
-import past.cwdt.bookstore.dto.BookDtoSearchByParameters;
-import past.cwdt.bookstore.dto.CreateBookRequestDto;
+import past.cwdt.bookstore.dto.book.BookDto;
+import past.cwdt.bookstore.dto.book.BookDtoSearchByParameters;
+import past.cwdt.bookstore.dto.book.CreateBookRequestDto;
 
 public interface BookService {
     BookDto save(CreateBookRequestDto requestDto);
