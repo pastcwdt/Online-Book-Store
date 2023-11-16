@@ -22,13 +22,13 @@ import past.cwdt.bookstore.service.BookService;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final BookSpecificationBuilder bookSpecificationBuilder;
     private final CategoryRepository categoryRepository;
 
+    @Transactional
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
         Book book = bookMapper.toBook(requestDto);
@@ -51,6 +51,7 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
+    @Transactional
     @Override
     public BookDto update(Long id, CreateBookRequestDto requestDto) {
         checkIfBookExistsById(id);
@@ -60,6 +61,7 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toDto(bookRepository.save(book));
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         checkIfBookExistsById(id);
